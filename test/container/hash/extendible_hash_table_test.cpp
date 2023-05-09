@@ -7,6 +7,7 @@
 
 #include "container/hash/extendible_hash_table.h"
 #include "gtest/gtest.h"
+// #include <random>
 
 namespace bustub {
 
@@ -68,4 +69,62 @@ TEST(ExtendibleHashTableTest, ConcurrentInsertTest) {
   }
 }
 
+// TEST(ExtendibleHashTest, RandomInsertAndDeleteTest) {
+//   // set leaf size as 2
+//   // ExtendibleHash<int, int> *test =
+//   //         new ExtendibleHash<int, int>(10);
+//   auto test = std::make_unique<ExtendibleHashTable<int, int>>(10);
+//   for (int i=0; i<10; i++) {
+//     test->Insert(i, i);
+//   }
+
+//   for (int i=0; i<10; i++) {
+//     srand(time(0)+i);
+//     if (rand()%2==0) {
+//       test->Remove(i);
+//       int value;
+//       EXPECT_NE(test->Find(i, value), true);
+//     } else {
+//       test->Insert(i, i+2);
+//       int value;
+//       EXPECT_EQ(test->Find(i, value), true);
+//       EXPECT_EQ(value, i+2);
+//     }
+//   }
+// }
+// #define TEST_NUM 1000
+// #define BUCKET_SIZE 64
+// TEST(ExtendibleHashTest, BasicRandomTest) {
+//   // ExtendibleHash<int, int> *test = new ExtendibleHash<int, int>();
+//   auto test = std::make_unique<ExtendibleHashTable<int, int>>(2);
+//   // insert
+//   int seed = time(nullptr);
+//   std::cerr << "seed: " << seed << std::endl;
+//   std::default_random_engine engine(seed);
+//   std::uniform_int_distribution<int> distribution(0, TEST_NUM);
+//   std::map<int, int> comparator;
+
+//   for (int i = 0; i < TEST_NUM; ++i) {
+//     std::cerr << i << std::endl;
+//     auto item = distribution(engine);
+//     comparator[item] = item;
+//     printf("%d,",item);
+//     test->Insert(item, item);
+//     //std::cerr << std::dec << item << std::hex << "( 0x" << item << " )" << std::endl;
+//   }
+//   //printf("\n");
+
+//   // compare result
+//   int value = 0;
+//   for (auto i: comparator) {
+//     test->Find(i.first, value);
+//     //printf("%d,%d\n",,i.first);
+//     EXPECT_EQ(i.first, value);
+//     // delete
+//     EXPECT_EQ(1, test->Remove(value));
+//     // find again will fail
+//     value = 0;
+//     EXPECT_EQ(0, test->Find(i.first, value));
+//   }
+// }
 }  // namespace bustub
