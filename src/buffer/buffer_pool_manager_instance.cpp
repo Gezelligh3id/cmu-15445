@@ -167,4 +167,5 @@ auto BufferPoolManagerInstance::AllocatePage() -> page_id_t {
   return next_page_id_++;
 }
 
+
 }  // namespace bustub
