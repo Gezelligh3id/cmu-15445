@@ -12,6 +12,7 @@
 
 #include <queue>
 
+#include "buffer/buffer_pool_manager.h"
 #include "storage/page/b_plus_tree_page.h"
 
 namespace bustub {
@@ -40,13 +41,25 @@ class BPlusTreeInternalPage : public BPlusTreePage {
 
   auto KeyAt(int index) const -> KeyType;
   void SetKeyAt(int index, const KeyType &key);
+  void SetValueAt(int index, const ValueType &value);
   auto ValueAt(int index) const -> ValueType;
+  auto ValueIndex(const ValueType &value) -> int;
+  auto KeyIndex(const KeyType &key, const KeyComparator &comp) const -> int;
+  auto Find(const KeyType &key, KeyComparator &comp) -> ValueType;
+  void InsertNodeAfter(const ValueType &left_value, const KeyType &key, const ValueType &value);
+  void PopulateNewRoot(const ValueType &left_value, const KeyType &key, const ValueType &value);
+  // split的辅助函数
+  void CopyNFrom(MappingType *item, int size, BufferPoolManager *buffer_pool_manager);
+  void MoveHalfTo(BPlusTreeInternalPage *recipient, BufferPoolManager *buffer_pool_manager);
+  // Remove的辅助函数
+  void Delete(const KeyType &key, KeyComparator &comp);
+  void MoveAllTo(BPlusTreeInternalPage *recipient, BufferPoolManager *buffer_pool_manager, const KeyType &mid_key);
 
-  auto ValueIndex(const ValueType &value) const -> int;
-  auto Lookup(const KeyType &key, const KeyComparator &comparator) const -> ValueType;
-  auto Insert(const KeyType &key, const ValueType & new_leaf_id, const KeyComparator& comparator) -> bool;
-  void Remove(const KeyType &key);
-  
+  void MoveFirstToLast(BPlusTreeInternalPage *recipient, BufferPoolManager *buffer_pool_manager,
+                       const KeyType &mid_key);
+  void MoveLastToFirst(BPlusTreeInternalPage *recipient, BufferPoolManager *buffer_pool_manager);
+  void CopyFirstFrom(const MappingType &item, BufferPoolManager *buffer_pool_manager);
+
  private:
   // Flexible array member for page data.
   MappingType array_[1];
